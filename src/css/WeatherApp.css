@@ -1,0 +1,163 @@
+.weather-container {
+  width: 100%;
+  max-width: 650px;
+
+  margin: 40px auto;
+  padding: 35px;
+
+  background-color: #ffffff;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.12);
+
+  border-top: 6px solid #179bd7;
+}
+
+.weather-container h1 {
+  margin-top: 0;
+  margin-bottom: 30px;
+
+  text-align: center;
+
+  font-size: 32px;
+  color: #1f2937;
+}
+
+.weather-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.weather-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.weather-field label {
+  margin-bottom: 7px;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  color: #333333;
+}
+
+.weather-field input {
+  width: 100%;
+
+  padding: 12px 14px;
+
+  border: 1px solid #bfc8d1;
+  border-radius: 7px;
+
+  font-size: 16px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.weather-field input:focus {
+  outline: none;
+
+  border-color: #179bd7;
+
+  box-shadow:
+    0 0 0 3px rgba(23, 155, 215, 0.15);
+}
+
+.weather-button-container {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 10px;
+}
+
+.weather-button {
+  min-width: 160px;
+
+  padding: 12px 25px;
+
+  border: none;
+  border-radius: 7px;
+
+  background-color: #179bd7;
+  color: #ffffff;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.weather-button:hover {
+  background-color: #107aad;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.weather-info {
+  margin-top: 30px;
+  padding: 20px;
+
+  background-color: #eef8fd;
+
+  border-left: 5px solid #179bd7;
+  border-radius: 8px;
+}
+
+.weather-info h2 {
+  margin-top: 0;
+
+  text-align: center;
+
+  color: #107aad;
+}
+
+.weather-info p {
+  margin: 10px 0;
+
+  font-size: 16px;
+}
+
+.error {
+  margin-top: 20px;
+  padding: 12px;
+
+  background-color: #fdecec;
+  color: #b42318;
+
+  border-radius: 7px;
+
+  text-align: center;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 650px) {
+
+  .weather-container {
+    margin: 25px auto;
+    padding: 25px 20px;
+  }
+
+  .weather-container h1 {
+    font-size: 26px;
+  }
+
+  .weather-button {
+    width: 100%;
+  }
+}

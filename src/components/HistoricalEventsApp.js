@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import '../css/HistoricalEventsApp.css';
 import { translateTexts } from '../services/translationService';
 
 const HistoricalEventsApp = () => {
@@ -8,12 +9,9 @@ const HistoricalEventsApp = () => {
   const [date, setDate] = useState('');
   const [events, setEvents] = useState([]);
   const [translatedEvents, setTranslatedEvents] = useState([]);
-
   const [error, setError] = useState('');
   const [translating, setTranslating] = useState(false);
-
   const [showTranslation, setShowTranslation] = useState(false);
-
 
   const fetchEvents = async () => {
 
@@ -22,7 +20,7 @@ const HistoricalEventsApp = () => {
     setTranslatedEvents([]);
     setShowTranslation(false);
 
-    if (!date) {
+    if (!date.trim()) {
       setError('Por favor, ingresa una fecha.');
       return;
     }
@@ -33,7 +31,10 @@ const HistoricalEventsApp = () => {
         `https://history.muffinlabs.com/date/${date}`
       );
 
-      setEvents(response.data.data.Events);
+      const eventos =
+        response.data.data.Events.slice(0, 10);
+
+      setEvents(eventos);
 
     } catch (err) {
 
@@ -46,14 +47,10 @@ const HistoricalEventsApp = () => {
     }
   };
 
-
   const translateEvents = async () => {
 
     if (events.length === 0) {
-      setError(
-        'Primero debes realizar una búsqueda.'
-      );
-
+      setError('Primero debes realizar una búsqueda.');
       return;
     }
 
@@ -63,7 +60,12 @@ const HistoricalEventsApp = () => {
     try {
 
       const texts = events.map(
-        event => event.text
+        (event) => event.text
+      );
+
+      console.log(
+        'Eventos que se traducirán:',
+        texts.length
       );
 
       const translations =
@@ -77,15 +79,17 @@ const HistoricalEventsApp = () => {
       );
 
       setTranslatedEvents(translated);
-
       setShowTranslation(true);
 
     } catch (err) {
 
-      console.error(err);
+      console.error(
+        'Error traduciendo efemérides:',
+        err
+      );
 
       setError(
-        'No fue posible traducir los eventos.'
+        'No fue posible traducir los eventos. Intenta nuevamente.'
       );
 
     } finally {
@@ -95,132 +99,135 @@ const HistoricalEventsApp = () => {
     }
   };
 
-
   const eventsToShow =
     showTranslation
       ? translatedEvents
       : events;
 
-
   return (
-    <div className="events-container">
+    <section className="history-card">
 
-      <h1>
+      <h1 className="history-title">
         Explora Eventos Históricos
       </h1>
 
+      <div className="history-search">
 
-      <div className="events-form">
+        <label htmlFor="history-date">
+          Fecha
+        </label>
 
         <input
+          id="history-date"
+          className="history-input"
           type="text"
-          placeholder="Formato MM/DD (ej. 07/04)"
+          placeholder="MM/DD - Ej. 07/04"
           value={date}
-          onChange={(e) =>
-            setDate(e.target.value)
-          }
+          onChange={(e) => setDate(e.target.value)}
         />
 
-        <button onClick={fetchEvents}>
+        <button
+          className="history-main-button"
+          onClick={fetchEvents}
+        >
           Buscar
         </button>
 
       </div>
 
-
       {error && (
-        <p className="error">
+        <div className="history-error">
           {error}
-        </p>
+        </div>
       )}
 
-
       {events.length > 0 && (
+        <div className="history-language-buttons">
 
-        <div className="translation-actions">
-
-          {!showTranslation ? (
-
+          {translatedEvents.length === 0 && (
             <button
               onClick={translateEvents}
               disabled={translating}
             >
-
               {translating
                 ? 'Traduciendo...'
                 : 'Traducir al español'}
-
             </button>
-
-          ) : (
-
-            <button
-              onClick={() =>
-                setShowTranslation(false)
-              }
-            >
-              Ver original
-            </button>
-
           )}
 
-
           {translatedEvents.length > 0 && (
-            <button
-              onClick={() =>
-                setShowTranslation(true)
-              }
-            >
-              Ver español
-            </button>
+            <>
+              <button
+                onClick={() =>
+                  setShowTranslation(false)
+                }
+                className={
+                  !showTranslation
+                    ? 'active'
+                    : ''
+                }
+              >
+                Ver original
+              </button>
+
+              <button
+                onClick={() =>
+                  setShowTranslation(true)
+                }
+                className={
+                  showTranslation
+                    ? 'active'
+                    : ''
+                }
+              >
+                Ver español
+              </button>
+            </>
           )}
 
         </div>
-
       )}
-
 
       {eventsToShow.length > 0 ? (
 
-        <ul className="events-list">
+        <div className="history-results">
 
           {eventsToShow.map(
             (event, index) => (
 
-              <li key={index}>
+              <article
+                className="history-event-card"
+                key={index}
+              >
+
+                <span className="history-year">
+                  {event.year}
+                </span>
 
                 <p>
-
-                  <strong>
-                    {event.year}
-                  </strong>
-
-                  {': '}
-
                   {showTranslation
                     ? event.translatedText
                     : event.text}
-
                 </p>
 
-              </li>
+              </article>
 
             )
           )}
 
-        </ul>
+        </div>
 
       ) : (
 
         !error && (
-          <p>
+          <p className="history-empty">
             No hay eventos para esta fecha.
           </p>
         )
 
       )}
 
-    </div>
+    </section>
   );
 };
 

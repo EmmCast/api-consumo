@@ -1,23 +1,67 @@
 import React from 'react';
 
-const ApiMenu = ({ onSelectApi }) => {
+const ApiMenu = ({
+  selectedApi,
+  onSelectApi
+}) => {
+
   return (
     <nav className="api-menu">
 
-      <button onClick={() => onSelectApi('weather')}>
+      <button
+        className={
+          selectedApi === 'home'
+            ? 'api-button active'
+            : 'api-button'
+        }
+        onClick={() => onSelectApi('home')}
+        title="Volver al video"
+      >
+        🏠 Inicio
+      </button>
+
+      <button
+        className={
+          selectedApi === 'weather'
+            ? 'api-button active'
+            : 'api-button'
+        }
+        onClick={() => onSelectApi('weather')}
+      >
         API Clima
       </button>
 
-      <button onClick={() => onSelectApi('history')}>
+      <button
+        className={
+          selectedApi === 'history'
+            ? 'api-button active'
+            : 'api-button'
+        }
+        onClick={() => onSelectApi('history')}
+      >
         API Efemérides
       </button>
 
-      <button onClick={() => onSelectApi('climas')}>
-        API Metereologia
+      <button
+        className={
+          selectedApi === 'climas'
+            ? 'api-button active'
+            : 'api-button'
+        }
+        onClick={() => onSelectApi('climas')}
+      >
+        API Meteorología
       </button>
 
-      <button onClick={() => onSelectApi('pokemon')}>
-        API 4
+      <button
+        className={
+          selectedApi === 'pokemon'
+            ? 'api-button active'
+            : 'api-button'
+        }
+        onClick={() => onSelectApi('pokemon')}
+      >
+        API Pokémon
       </button>
 
     </nav>

@@ -1,0 +1,152 @@
+.meteorology-card {
+  width: 100%;
+  max-width: 650px;
+
+  margin: 40px auto;
+  padding: 35px;
+
+  background-color: #ffffff;
+
+  border-radius: 16px;
+  border-top: 6px solid #18a4dc;
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.meteorology-title {
+  margin: 0 0 30px 0;
+
+  text-align: center;
+
+  font-size: 32px;
+  color: #1f2937;
+}
+
+.meteorology-form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.meteorology-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.meteorology-field label {
+  margin-bottom: 7px;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  color: #333333;
+}
+
+.meteorology-field input {
+  width: 100%;
+
+  padding: 12px 14px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+
+  font-size: 16px;
+
+  background-color: #ffffff;
+}
+
+.meteorology-field input:focus {
+  outline: none;
+
+  border-color: #18a4dc;
+
+  box-shadow:
+    0 0 0 3px rgba(24, 164, 220, 0.15);
+}
+
+.meteorology-button {
+  width: 180px;
+
+  margin: 5px auto 0;
+  padding: 12px 20px;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: #18a4dc;
+  color: #ffffff;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.meteorology-button:hover {
+  background-color: #117dad;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.meteorology-result {
+  margin-top: 30px;
+  padding: 22px;
+
+  background-color: #f4fbfe;
+
+  border-left: 5px solid #18a4dc;
+  border-radius: 9px;
+}
+
+.meteorology-result h2 {
+  margin-top: 0;
+
+  text-align: center;
+
+  color: #117dad;
+}
+
+.meteorology-result p {
+  margin: 10px 0;
+
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.meteorology-error {
+  margin-top: 20px;
+  padding: 12px;
+
+  background-color: #fdecec;
+
+  border-radius: 8px;
+
+  color: #b42318;
+
+  text-align: center;
+}
+
+@media (max-width: 650px) {
+
+  .meteorology-card {
+    padding: 25px 20px;
+  }
+
+  .meteorology-title {
+    font-size: 26px;
+  }
+
+  .meteorology-button {
+    width: 100%;
+  }
+}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../css/MeteorologyApp.css';
 
 const MeteorologyApp = () => {
   const [latitude, setLatitude] = useState('');
@@ -37,81 +38,95 @@ const MeteorologyApp = () => {
     }
   };
 
-  return (
-    <div className="weather-container">
+return (
+  <section className="meteorology-card">
 
-      <h1>Consulta el Clima</h1>
+    <h1 className="meteorology-title">
+      Consulta Meteorológica
+    </h1>
 
-      <div className="weather-form">
+    <div className="meteorology-form">
+
+      <div className="meteorology-field">
+        <label htmlFor="meteorology-latitude">
+          Latitud
+        </label>
 
         <input
+          id="meteorology-latitude"
           type="number"
           step="any"
-          placeholder="Latitud"
+          placeholder="Ej. 19.4326"
           value={latitude}
           onChange={(e) => setLatitude(e.target.value)}
         />
+      </div>
+
+      <div className="meteorology-field">
+        <label htmlFor="meteorology-longitude">
+          Longitud
+        </label>
 
         <input
+          id="meteorology-longitude"
           type="number"
           step="any"
-          placeholder="Longitud"
+          placeholder="Ej. -99.1332"
           value={longitude}
           onChange={(e) => setLongitude(e.target.value)}
         />
-
-        <button onClick={fetchWeather}>
-          Consultar
-        </button>
-
       </div>
 
-      {error && (
-        <p className="error">
-          {error}
-        </p>
-      )}
-
-      {weather && weather.current && (
-        <div className="weather-info">
-
-          <h2>Clima Actual</h2>
-
-          <p>
-            Temperatura:
-            {' '}
-            {weather.current.temperature_2m} °C
-          </p>
-
-          <p>
-            Humedad:
-            {' '}
-            {weather.current.relative_humidity_2m} %
-          </p>
-
-          <p>
-            Velocidad del viento:
-            {' '}
-            {weather.current.wind_speed_10m} km/h
-          </p>
-
-          <p>
-            Código meteorológico:
-            {' '}
-            {weather.current.weather_code}
-          </p>
-
-          <p>
-            Zona horaria:
-            {' '}
-            {weather.timezone}
-          </p>
-
-        </div>
-      )}
+      <button
+        className="meteorology-button"
+        onClick={fetchWeather}
+      >
+        Consultar
+      </button>
 
     </div>
-  );
+
+    {error && (
+      <div className="meteorology-error">
+        {error}
+      </div>
+    )}
+
+    {weather && weather.current && (
+      <div className="meteorology-result">
+
+        <h2>Clima actual</h2>
+
+        <p>
+          <strong>Temperatura:</strong>{' '}
+          {weather.current.temperature_2m} °C
+        </p>
+
+        <p>
+          <strong>Humedad:</strong>{' '}
+          {weather.current.relative_humidity_2m} %
+        </p>
+
+        <p>
+          <strong>Velocidad del viento:</strong>{' '}
+          {weather.current.wind_speed_10m} km/h
+        </p>
+
+        <p>
+          <strong>Código meteorológico:</strong>{' '}
+          {weather.current.weather_code}
+        </p>
+
+        <p>
+          <strong>Zona horaria:</strong>{' '}
+          {weather.timezone}
+        </p>
+
+      </div>
+    )}
+
+  </section>
+);
 };
 
 export default MeteorologyApp;

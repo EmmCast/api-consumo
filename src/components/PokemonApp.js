@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../css/PokemonApp.css';
 
 const PokemonApp = () => {
   const [region, setRegion] = useState('kanto');
@@ -51,14 +52,23 @@ const PokemonApp = () => {
     }
   };
 
-  return (
-    <div className="pokemon-container">
+return (
+  <section className="pokemon-card">
 
-      <h1>Consulta Pokédex</h1>
+    <h1 className="pokemon-title">
+      Consulta Pokédex
+    </h1>
 
-      <div className="pokemon-form">
+    <div className="pokemon-search">
+
+      <div className="pokemon-field">
+
+        <label htmlFor="region">
+          Región
+        </label>
 
         <select
+          id="region"
           value={region}
           onChange={(e) => setRegion(e.target.value)}
         >
@@ -68,34 +78,47 @@ const PokemonApp = () => {
           <option value="original-sinnoh">Sinnoh</option>
         </select>
 
+      </div>
+
+      <div className="pokemon-field">
+
+        <label htmlFor="pokemon-number">
+          Número del Pokémon
+        </label>
+
         <input
+          id="pokemon-number"
           type="number"
           min="1"
-          placeholder="Número del Pokémon"
+          placeholder="Ej. 25"
           value={number}
           onChange={(e) => setNumber(e.target.value)}
         />
 
-        <button onClick={fetchPokemon}>
-          Buscar
-        </button>
-
       </div>
 
-      {error && (
-        <p className="error">
-          {error}
-        </p>
-      )}
+      <button
+        className="pokemon-button"
+        onClick={fetchPokemon}
+      >
+        Buscar
+      </button>
 
-      {pokemon && (
-        <div className="pokemon-info">
+    </div>
 
-          <h2>
-            #{pokemon.regionalNumber} {pokemon.name}
-          </h2>
+    {error && (
+      <div className="pokemon-error">
+        {error}
+      </div>
+    )}
+
+    {pokemon && (
+      <div className="pokemon-result">
+
+        <div className="pokemon-image-container">
 
           <img
+            className="pokemon-image"
             src={
               pokemon.sprites.other['official-artwork']
                 .front_default
@@ -103,10 +126,19 @@ const PokemonApp = () => {
             alt={pokemon.name}
           />
 
+        </div>
+
+        <div className="pokemon-data">
+
+          <h2>
+            #{pokemon.regionalNumber}{' '}
+            {pokemon.name}
+          </h2>
+
           <p>
             <strong>Tipo:</strong>{' '}
             {pokemon.types
-              .map(item => item.type.name)
+              .map((item) => item.type.name)
               .join(', ')}
           </p>
 
@@ -123,15 +155,17 @@ const PokemonApp = () => {
           <p>
             <strong>Habilidades:</strong>{' '}
             {pokemon.abilities
-              .map(item => item.ability.name)
+              .map((item) => item.ability.name)
               .join(', ')}
           </p>
 
         </div>
-      )}
 
-    </div>
-  );
+      </div>
+    )}
+
+  </section>
+);
 };
 
 export default PokemonApp;

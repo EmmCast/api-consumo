@@ -1,29 +1,57 @@
 import axios from 'axios';
 
+const sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 export const translateTexts = async (texts) => {
-  // Garantiza que 'texts' se maneje siempre como una lista/array
-  const textList = Array.isArray(texts) ? texts : [texts];
 
-  try {
-    // Procesa y traduce cada texto en paralelo
-    const translationPromises = textList.map(async (text) => {
-      if (!text || text.trim() === '') return text;
+  const textList = Array.isArray(texts)
+    ? texts
+    : [texts];
 
-      const response = await axios.get('https://api.mymemory.translated.net/get', {
-        params: {
-          q: text,
-          langpair: 'en|es'
+  const translations = [];
+
+  for (const text of textList) {
+
+    if (!text || text.trim() === '') {
+      translations.push(text);
+      continue;
+    }
+
+    try {
+
+      const response = await axios.get(
+        'https://api.mymemory.translated.net/get',
+        {
+          params: {
+            q: text,
+            langpair: 'en|es'
+          }
         }
-      });
+      );
 
-      return response.data.responseData.translatedText;
-    });
+      translations.push(
+        response.data.responseData.translatedText
+      );
 
-    // Espera a que todas las traducciones se completen
-    return await Promise.all(translationPromises);
-  } catch (error) {
-    console.error('Error al traducir el texto:', error);
-    // Si la API falla por red, retorna los textos originales sin romper la app
-    return textList;
+      await sleep(800);
+
+    } catch (error) {
+
+      console.error(
+        'Error traduciendo:',
+        text,
+        error
+      );
+
+      translations.push(text);
+
+      if (error.response?.status === 429) {
+        await sleep(3000);
+      }
+    }
   }
+
+  return translations;
 };
