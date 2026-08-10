@@ -1,0 +1,31 @@
+.translation-actions {
+  margin: 25px 0;
+
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.translation-actions button {
+  padding: 10px 18px;
+
+  border: none;
+  border-radius: 6px;
+
+  background-color: #2563eb;
+  color: white;
+
+  font-size: 14px;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.translation-actions button:hover {
+  background-color: #1d4ed8;
+}
+
+.translation-actions button:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}

@@ -1,38 +1,158 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #ffffff;
+  color: #222222;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
+}
+
+/* PÁGINA PRINCIPAL */
+
+.home-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+}
+
+.home-container {
+  width: 100%;
+  max-width: 1200px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* TÍTULO */
+
+.home-title {
+  margin: 20px 0 45px 0;
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* MENÚ DE APIS */
+
+.api-menu {
+  width: 100%;
+
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+
+  gap: 25px;
+
+  margin-bottom: 50px;
 }
 
-.App-link {
-  color: #61dafb;
+.api-menu button {
+  width: 180px;
+  min-height: 50px;
+
+  padding: 12px 20px;
+
+  background-color: #ffffff;
+  color: #222222;
+
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.api-menu button:hover {
+  background-color: #f5f5f5;
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* VIDEO */
+
+.video-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.presentation-video {
+  width: 75%;
+  max-width: 850px;
+
+  aspect-ratio: 16 / 9;
+
+  border: none;
+  border-radius: 10px;
+
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+
+  .home-title {
+    font-size: 32px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .api-menu {
+    flex-wrap: wrap;
+  }
+
+  .api-menu button {
+    width: 45%;
+  }
+
+  .presentation-video {
+    width: 90%;
+  }
+}
+
+/* MÓVIL */
+
+@media (max-width: 550px) {
+
+  .home-page {
+    padding: 25px 15px;
+  }
+
+  .home-title {
+    font-size: 26px;
+    margin-bottom: 30px;
+  }
+
+  .api-menu {
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 35px;
+  }
+
+  .api-menu button {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .presentation-video {
+    width: 100%;
   }
 }
