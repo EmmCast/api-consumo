@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/api-consumo/static/css/main.46cb4b8a.css",
+    "main.js": "/api-consumo/static/js/main.cd007e53.js",
+    "static/js/453.cd5b5b60.chunk.js": "/api-consumo/static/js/453.cd5b5b60.chunk.js",
+    "index.html": "/api-consumo/index.html",
+    "main.46cb4b8a.css.map": "/api-consumo/static/css/main.46cb4b8a.css.map",
+    "main.cd007e53.js.map": "/api-consumo/static/js/main.cd007e53.js.map",
+    "453.cd5b5b60.chunk.js.map": "/api-consumo/static/js/453.cd5b5b60.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.46cb4b8a.css",
+    "static/js/main.cd007e53.js"
+  ]
+}
