@@ -1,69 +1,60 @@
-import React from 'react';
+import React from "react";
 
-const ApiMenu = ({
-  selectedApi,
-  onSelectApi
-}) => {
-
+const ApiMenu = ({ selectedApi, onSelectApi }) => {
   return (
     <nav className="api-menu">
-
       <button
-        className={
-          selectedApi === 'home'
-            ? 'api-button active'
-            : 'api-button'
-        }
-        onClick={() => onSelectApi('home')}
+        className={selectedApi === "home" ? "api-button active" : "api-button"}
+        onClick={() => onSelectApi("home")}
         title="Volver al video"
       >
-        🏠 Inicio
+        🏠
       </button>
 
       <button
         className={
-          selectedApi === 'weather'
-            ? 'api-button active'
-            : 'api-button'
+          selectedApi === "weather" ? "api-button active" : "api-button"
         }
-        onClick={() => onSelectApi('weather')}
+        onClick={() => onSelectApi("weather")}
       >
-        API Clima
+        Clima
       </button>
 
       <button
         className={
-          selectedApi === 'history'
-            ? 'api-button active'
-            : 'api-button'
+          selectedApi === "history" ? "api-button active" : "api-button"
         }
-        onClick={() => onSelectApi('history')}
+        onClick={() => onSelectApi("history")}
       >
-        API Efemérides
+        Efemérides
       </button>
 
       <button
         className={
-          selectedApi === 'climas'
-            ? 'api-button active'
-            : 'api-button'
+          selectedApi === "climas" ? "api-button active" : "api-button"
         }
-        onClick={() => onSelectApi('climas')}
+        onClick={() => onSelectApi("climas")}
       >
-        API Meteorología
+        Meteorología
       </button>
 
       <button
         className={
-          selectedApi === 'pokemon'
-            ? 'api-button active'
-            : 'api-button'
+          selectedApi === "pokemon" ? "api-button active" : "api-button"
         }
-        onClick={() => onSelectApi('pokemon')}
+        onClick={() => onSelectApi("pokemon")}
       >
-        API Pokémon
+        Pokémon
       </button>
 
+      <button
+        className={
+          selectedApi === "gasolineras" ? "api-button active" : "api-button"
+        }
+        onClick={() => onSelectApi("gasolineras")}
+      >
+        ⛽ Gasolineras México
+      </button>
     </nav>
   );
 };
