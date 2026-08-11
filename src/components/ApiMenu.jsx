@@ -53,7 +53,7 @@ const ApiMenu = ({ selectedApi, onSelectApi }) => {
         }
         onClick={() => onSelectApi("gasolineras")}
       >
-        ⛽ Gasolineras México
+        Gasolineras México
       </button>
     </nav>
   );

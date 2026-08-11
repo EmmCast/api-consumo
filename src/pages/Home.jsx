@@ -11,7 +11,7 @@ const Home = () => {
   const [selectedApi, setSelectedApi] = useState("home");
 
   const videoUrl =
-    "https://drive.google.com/file/d/1EgB_JXxKLtCML33JWdwyCITgcwNALTv8/preview";
+    "https://drive.google.com/file/d/1S8OH_Uy1FQsIePpNnN6ofZHuNcySG3ME/preview";
 
   return (
     <main className="home-page">

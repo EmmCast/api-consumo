@@ -1,35 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  CircleMarker
+} from 'react-leaflet';
 
-import "leaflet/dist/leaflet.css";
-import "../css/GasStationsApp.css";
+import L from 'leaflet';
 
-import { getGasStations } from "../services/gasStationService";
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
-import { calculateDistance } from "../services/distanceService";
+import 'leaflet/dist/leaflet.css';
+import '../css/GasStationsApp.css';
 
+import {
+  getGasStations
+} from '../services/gasStationService';
+
+import {
+  calculateDistance
+} from '../services/distanceService';
+
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow
+});
 const GasStationsApp = () => {
   const [stations, setStations] = useState([]);
-
   const [results, setResults] = useState([]);
 
   const [latitude, setLatitude] = useState(19.4326);
-
   const [longitude, setLongitude] = useState(-99.1332);
 
   const [fuel, setFuel] = useState("regular");
-
   const [radius, setRadius] = useState(10);
 
   const [maxPrice, setMaxPrice] = useState("");
-
   const [searchName, setSearchName] = useState("");
 
   const [order, setOrder] = useState("distance");
 
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -39,11 +58,13 @@ const GasStationsApp = () => {
 
         const data = await getGasStations();
 
+        console.log("Gasolineras cargadas:", data.length);
+
         setStations(data);
       } catch (err) {
         console.error(err);
 
-        setError("No fue posible obtener las gasolineras.");
+        setError("No fue posible obtener la información de las gasolineras.");
       } finally {
         setLoading(false);
       }
@@ -53,8 +74,10 @@ const GasStationsApp = () => {
   }, []);
 
   const getMyLocation = () => {
+    setError("");
+
     if (!navigator.geolocation) {
-      setError("La geolocalización no está disponible.");
+      setError("Tu navegador no permite obtener la ubicación.");
 
       return;
     }
@@ -65,6 +88,7 @@ const GasStationsApp = () => {
 
         setLongitude(position.coords.longitude);
       },
+
       () => {
         setError("No fue posible obtener tu ubicación.");
       },
@@ -72,7 +96,30 @@ const GasStationsApp = () => {
   };
 
   const searchStations = () => {
+    setError("");
+
+    if (latitude === "" || longitude === "") {
+      setError(
+        'Debes indicar una ubicación o utilizar el botón "Usar mi ubicación".',
+      );
+
+      return;
+    }
+
+    if (!fuel) {
+      setError("Debes seleccionar un tipo de combustible.");
+
+      return;
+    }
+
+    if (!radius) {
+      setError("Debes seleccionar un radio de búsqueda.");
+
+      return;
+    }
+
     const filtered = stations
+
       .map((station) => {
         const distance = calculateDistance(
           Number(latitude),
@@ -85,15 +132,19 @@ const GasStationsApp = () => {
 
         return {
           ...station,
+
           distance,
-          selectedPrice: fuelPrice?.amount || null,
+
+          selectedPrice: fuelPrice?.amount ?? null,
         };
       })
 
       .filter((station) => station.distance <= Number(radius))
 
+ 
       .filter((station) => station.selectedPrice !== null)
 
+    
       .filter((station) => {
         if (!maxPrice) {
           return true;
@@ -102,9 +153,17 @@ const GasStationsApp = () => {
         return station.selectedPrice <= Number(maxPrice);
       })
 
-      .filter((station) =>
-        station.name.toLowerCase().includes(searchName.toLowerCase()),
-      );
+   
+      .filter((station) => {
+        if (!searchName.trim()) {
+          return true;
+        }
+
+        return station.name
+          .toLowerCase()
+          .includes(searchName.trim().toLowerCase());
+      });
+
 
     if (order === "price") {
       filtered.sort((a, b) => a.selectedPrice - b.selectedPrice);
@@ -112,43 +171,68 @@ const GasStationsApp = () => {
       filtered.sort((a, b) => a.distance - b.distance);
     }
 
+
     setResults(filtered.slice(0, 30));
   };
 
   return (
     <section className="gas-card">
-      <h1>⛽ Gasolineras México</h1>
+      <h1 className="gas-title">Gasolineras México</h1>
 
       <div className="gas-form">
         <button className="location-button" onClick={getMyLocation}>
           📍 Usar mi ubicación
         </button>
 
+        <p className="required-note">
+          <span className="required">*</span> Campos obligatorios
+        </p>
+
         <div className="gas-fields">
-          <div>
-            <label>Latitud</label>
+          {/* LATITUD */}
+
+          <div className="gas-field">
+            <label htmlFor="gas-latitude">
+              Latitud <span className="required">*</span>
+            </label>
 
             <input
+              id="gas-latitude"
               type="number"
+              step="any"
               value={latitude}
               onChange={(e) => setLatitude(e.target.value)}
             />
           </div>
 
-          <div>
-            <label>Longitud</label>
+          {/* LONGITUD */}
+
+          <div className="gas-field">
+            <label htmlFor="gas-longitude">
+              Longitud <span className="required">*</span>
+            </label>
 
             <input
+              id="gas-longitude"
               type="number"
+              step="any"
               value={longitude}
               onChange={(e) => setLongitude(e.target.value)}
             />
           </div>
 
-          <div>
-            <label>Combustible</label>
+          {/* COMBUSTIBLE */}
 
-            <select value={fuel} onChange={(e) => setFuel(e.target.value)}>
+          <div className="gas-field">
+            <label htmlFor="gas-fuel">
+              Combustible <span className="required">*</span>
+            </label>
+
+            <select
+              id="gas-fuel"
+              value={fuel}
+              onChange={(e) => setFuel(e.target.value)}
+            >
               <option value="regular">Regular</option>
 
               <option value="premium">Premium</option>
@@ -157,10 +241,18 @@ const GasStationsApp = () => {
             </select>
           </div>
 
-          <div>
-            <label>Radio</label>
+          {/* RADIO */}
 
-            <select value={radius} onChange={(e) => setRadius(e.target.value)}>
+          <div className="gas-field">
+            <label htmlFor="gas-radius">
+              Radio <span className="required">*</span>
+            </label>
+
+            <select
+              id="gas-radius"
+              value={radius}
+              onChange={(e) => setRadius(e.target.value)}
+            >
               <option value="5">5 km</option>
 
               <option value="10">10 km</option>
@@ -171,21 +263,35 @@ const GasStationsApp = () => {
             </select>
           </div>
 
-          <div>
-            <label>Precio máximo</label>
+          {/* PRECIO MÁXIMO */}
+
+          <div className="gas-field">
+            <label htmlFor="gas-price">
+              Precio máximo
+              <span className="optional"> (opcional)</span>
+            </label>
 
             <input
+              id="gas-price"
               type="number"
+              step="0.01"
+              min="0"
               placeholder="Ej. 24.00"
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
             />
           </div>
 
-          <div>
-            <label>Nombre</label>
+          {/* NOMBRE */}
+
+          <div className="gas-field">
+            <label htmlFor="gas-name">
+              Nombre
+              <span className="optional"> (opcional)</span>
+            </label>
 
             <input
+              id="gas-name"
               type="text"
               placeholder="Ej. PETROMAX"
               value={searchName}
@@ -193,10 +299,16 @@ const GasStationsApp = () => {
             />
           </div>
 
-          <div>
-            <label>Ordenar por</label>
+          {/* ORDENAMIENTO */}
 
-            <select value={order} onChange={(e) => setOrder(e.target.value)}>
+          <div className="gas-field">
+            <label htmlFor="gas-order">Ordenar por</label>
+
+            <select
+              id="gas-order"
+              value={order}
+              onChange={(e) => setOrder(e.target.value)}
+            >
               <option value="distance">Más cercana</option>
 
               <option value="price">Más barata</option>
@@ -209,12 +321,18 @@ const GasStationsApp = () => {
         </button>
       </div>
 
-      {loading && <p>Cargando información...</p>}
+      {loading && <p className="gas-loading">Cargando información...</p>}
 
       {error && <div className="gas-error">{error}</div>}
 
       {results.length > 0 && (
         <>
+          <div className="gas-summary">
+            Se encontraron <strong>{results.length}</strong> gasolineras.
+          </div>
+
+          {/* MAPA */}
+
           <div className="gas-map">
             <MapContainer
               center={[Number(latitude), Number(longitude)]}
@@ -229,6 +347,29 @@ const GasStationsApp = () => {
                 url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
 
+              {/* UBICACIÓN DEL USUARIO */}
+
+              <CircleMarker
+                center={[Number(latitude), Number(longitude)]}
+                radius={10}
+                pathOptions={{
+                  fillColor: "#18a4dc",
+                  color: "#ffffff",
+                  weight: 3,
+                  fillOpacity: 1,
+                }}
+              >
+                <Popup>
+                  <strong>Tu ubicación</strong>
+                  <br />
+                  Latitud: {Number(latitude).toFixed(6)}
+                  <br />
+                  Longitud: {Number(longitude).toFixed(6)}
+                </Popup>
+              </CircleMarker>
+
+              {/* GASOLINERAS */}
+
               {results.map((station) => (
                 <Marker
                   key={station.id}
@@ -236,14 +377,22 @@ const GasStationsApp = () => {
                 >
                   <Popup>
                     <strong>{station.name}</strong>
-                    <br />${station.selectedPrice}
                     <br />
-                    {station.distance.toFixed(2)} km
+                    Precio: ${station.selectedPrice}
+                    <br />
+                    Distancia: {station.distance.toFixed(2)} km
+                    <br />
+                    {station.address &&
+                      station.address !== "Dirección no disponible" && (
+                        <>Dirección: {station.address}</>
+                      )}
                   </Popup>
                 </Marker>
               ))}
             </MapContainer>
           </div>
+
+          {/* RESULTADOS */}
 
           <div className="gas-results">
             {results.map((station) => (
@@ -259,11 +408,12 @@ const GasStationsApp = () => {
                 </p>
 
                 <p>
-                  <strong>Dirección:</strong> {station.address}
+                  <strong>Dirección:</strong>{" "}
+                  {station.address || "Dirección no disponible"}
                 </p>
 
                 <p>
-                  <strong>Permiso:</strong> {station.permit}
+                  <strong>Permiso:</strong> {station.permit || "No disponible"}
                 </p>
               </article>
             ))}

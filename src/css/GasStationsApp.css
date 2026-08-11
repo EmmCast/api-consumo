@@ -5,7 +5,7 @@
   margin: 40px auto;
   padding: 35px;
 
-  background: white;
+  background-color: #ffffff;
 
   border-radius: 16px;
   border-top: 6px solid #18a4dc;
@@ -14,10 +14,12 @@
     0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
-.gas-card h1 {
-  margin-top: 0;
+.gas-title {
+  margin: 0 0 25px 0;
 
   text-align: center;
+
+  font-size: 32px;
 
   color: #1f2937;
 }
@@ -25,14 +27,15 @@
 .gas-form {
   max-width: 900px;
 
-  margin: 30px auto;
+  margin: 0 auto 30px;
 }
 
-.location-button,
-.gas-search-button {
+/* BOTÓN DE UBICACIÓN */
+
+.location-button {
   display: block;
 
-  margin: 20px auto;
+  margin: 0 auto 15px;
 
   padding: 12px 24px;
 
@@ -40,12 +43,52 @@
   border-radius: 8px;
 
   background-color: #18a4dc;
-  color: white;
+  color: #ffffff;
 
+  font-size: 15px;
   font-weight: bold;
 
   cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
+
+.location-button:hover {
+  background-color: #117dad;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* CAMPOS OBLIGATORIOS */
+
+.required-note {
+  margin: 10px 0 20px;
+
+  font-size: 13px;
+
+  color: #667085;
+}
+
+.required {
+  color: #d92d20;
+
+  font-weight: bold;
+}
+
+.optional {
+  color: #667085;
+
+  font-size: 12px;
+  font-weight: normal;
+}
+
+/* FORMULARIO */
 
 .gas-fields {
   display: grid;
@@ -56,27 +99,129 @@
   gap: 20px;
 }
 
-.gas-fields div {
+.gas-field {
   display: flex;
+
   flex-direction: column;
 }
 
-.gas-fields label {
-  margin-bottom: 6px;
+.gas-field label {
+  margin-bottom: 7px;
 
+  font-size: 14px;
   font-weight: bold;
+
+  color: #1f2937;
 }
 
-.gas-fields input,
-.gas-fields select {
-  padding: 11px;
+.gas-field input,
+.gas-field select {
+  width: 100%;
+
+  padding: 12px 14px;
 
   border: 1px solid #cbd5e1;
-  border-radius: 7px;
+  border-radius: 8px;
+
+  background-color: #ffffff;
+
+  font-size: 15px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
+.gas-field input:focus,
+.gas-field select:focus {
+  outline: none;
+
+  border-color: #18a4dc;
+
+  box-shadow:
+    0 0 0 3px rgba(24, 164, 220, 0.15);
+}
+
+/* BOTÓN BUSCAR */
+
+.gas-search-button {
+  display: block;
+
+  min-width: 200px;
+
+  margin: 30px auto 0;
+
+  padding: 13px 24px;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: #18a4dc;
+
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.gas-search-button:hover {
+  background-color: #117dad;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* CARGANDO */
+
+.gas-loading {
+  margin: 25px 0;
+
+  text-align: center;
+
+  color: #667085;
+}
+
+/* ERROR */
+
+.gas-error {
+  max-width: 700px;
+
+  margin: 20px auto;
+
+  padding: 13px;
+
+  background-color: #fdecec;
+
+  border-radius: 8px;
+
+  color: #b42318;
+
+  text-align: center;
+}
+
+/* RESUMEN */
+
+.gas-summary {
+  margin: 30px 0 15px;
+
+  text-align: center;
+
+  color: #475467;
+}
+
+/* MAPA */
+
 .gas-map {
-  margin: 35px 0;
+  margin: 20px 0 35px;
 
   overflow: hidden;
 
@@ -85,6 +230,14 @@
   box-shadow:
     0 4px 15px rgba(0, 0, 0, 0.12);
 }
+
+.gas-map .leaflet-container {
+  width: 100%;
+
+  min-height: 450px;
+}
+
+/* RESULTADOS */
 
 .gas-results {
   display: grid;
@@ -101,39 +254,65 @@
 .gas-result-card {
   padding: 20px;
 
-  background: #f4fbfe;
+  background-color: #f4fbfe;
 
   border-left: 5px solid #18a4dc;
   border-radius: 8px;
 
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.07);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.gas-result-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 5px 14px rgba(0, 0, 0, 0.1);
 }
 
 .gas-result-card h3 {
   margin-top: 0;
+  margin-bottom: 16px;
 
   color: #117dad;
+
+  line-height: 1.4;
 }
 
-.gas-error {
-  padding: 12px;
+.gas-result-card p {
+  margin: 9px 0;
 
-  background: #fdecec;
-  color: #b42318;
+  line-height: 1.45;
 
-  border-radius: 8px;
-
-  text-align: center;
+  color: #1f2937;
 }
+
+/* RESPONSIVE */
 
 @media (max-width: 700px) {
+
+  .gas-card {
+    padding: 25px 18px;
+  }
+
+  .gas-title {
+    font-size: 26px;
+  }
 
   .gas-fields {
     grid-template-columns: 1fr;
   }
 
-  .gas-card {
-    padding: 25px 18px;
+  .location-button,
+  .gas-search-button {
+    width: 100%;
+  }
+
+  .gas-map .leaflet-container {
+    min-height: 350px;
   }
 }
